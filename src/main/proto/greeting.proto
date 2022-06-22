@@ -1,0 +1,54 @@
+syntax = "proto3"; // supports both proto2 and proto3 syntax
+// proto2 (the current default protocol buffers version)
+
+package MyGreetings; // not a good java package name as this keyword doesn't use reverse domain names
+
+option java_multiple_files = true;
+
+// To override value by 'package' use java_package which makes more sense since uses reverse domain names
+// if not specified, package MyGreetings will be used instead
+option java_package = "io.grpc.examples.greeting";
+// option java_outer_classname = "GreetingProto";
+// option objc_class_prefix = "RTG";
+
+
+// 1. client calls stub method
+// 2. server is notified with client's metadata, method name and optional deadline
+// 3. server may send back its own initial metadata straight away or wait until client sends request_message.
+// 4. server processes the request and sends response with status code and optional status message with optional trailing metadata.
+// client and server both make independent and local determination of success of call. What's success for server may not be same for client.
+// Either the client or the server can cancel an RPC at any time.
+
+service HelloService {
+  // unary
+  // A simple RPC where the client sends a request to the server using the stub
+  // and waits for a response to come back, just like a normal function call.
+  rpc SayHello (HelloRequest) returns (HelloResponse);
+
+  // server streaming
+  // A server-side streaming RPC where the client sends a request to the server and gets a stream to read
+  // a sequence of messages back. The client reads from the returned stream until there are no more messages.
+  rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse);
+
+  // client streaming
+  // A client-side streaming RPC where the client writes a sequence of messages and sends them to the server, again using a provided stream.
+  // Once the client has finished writing the messages, it waits for the server to read them all and return its response.
+  rpc LotsOfGreetings(stream HelloRequest) returns (HelloResponse);
+
+  // bidirectional
+  // A bidirectional streaming RPC where both sides send a sequence of messages using a read-write stream.
+  // The two streams operate independently, so clients and servers can read and write in whatever order they like:
+  // for example, the server could wait to receive all the client messages before writing its responses, or
+  // it could alternately read a message then write a message, or some other combination of reads and writes.
+  // The order of messages in each stream is preserved.
+  rpc BidiHello(stream HelloRequest) returns (stream HelloResponse);
+
+}
+
+message HelloRequest {
+  string greeting = 1;
+}
+
+message HelloResponse {
+  string reply = 1;
+}

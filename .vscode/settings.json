@@ -1,0 +1,17 @@
+{
+    "java.format.comments.enabled": false,
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "[java]": {
+        "editor.defaultFormatter": "redhat.java",
+        "editor.formatOnSave": true,
+    },
+    // "clang-format.style": "google",
+    "clang-format.executable": "/usr/local/bin/clang-format",
+    "clang-format.language.proto.enable": true,
+    // Ref: https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+    "clang-format.language.proto.style": "{BasedOnStyle: Google, AlignConsecutiveDeclarations: AcrossEmptyLinesAndComments, AlignConsecutiveAssignments: AcrossEmptyLinesAndComments, ColumnLimit: 0, IndentWidth: 4}",
+    "[proto3]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+}
